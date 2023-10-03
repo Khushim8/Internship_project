@@ -8,16 +8,16 @@ CREATE TABLE 'CITY'
 );
 
 INSERT INTO 'CITY' ('ID','City') VALUES 
-('101','Mumbai'),
-('102','Pune'),
-('103','Delhi'),
-('104','Kolkata'),
-('105','Chennai'),
-('106','Hyderabad'),
-('107','Banglore'),
-('108','Shrinagar'),
-('109','Jaipur'),
-('110','Amritsar');
+('1','Mumbai'),
+('2','Pune'),
+('3','Delhi'),
+('4','Kolkata'),
+('5','Chennai'),
+('6','Hyderabad'),
+('7','Banglore'),
+('8','Shrinagar'),
+('9','Jaipur'),
+('10','Amritsar');
 
 --------------------------------------------------------
 
@@ -27,10 +27,10 @@ CREATE TABLE 'Ways' (
 );
 -- insert some values
 INSERT INTO 'Ways' VALUES 
-(201, 'Air'),
-(202 , 'Car'),
-(203, 'Water'),
-(204 ,'Rails');
+(1, 'Air'),
+(2 , 'Car'),
+(3, 'Water'),
+(4 ,'Rails');
 
 --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE 'Main' (
     FOREIGN KEY (To_City_ID) REFERENCES City(City_ID)
 );
 INSERT into 'Main' values
- (301,201,101,102,540,50,240,1),
- (302,202,101,102,530,100,150,1), 
- (303,203,101,102,234,100,345,1), 
- (304,204,101,102,567,345,235,1);
+ (1,1,1,2,540,50,240,1),
+ (2,2,1,2,530,100,150,1), 
+ (3,3,1,2,234,100,345,1), 
+ (4,4,1,2,567,345,235,1);
