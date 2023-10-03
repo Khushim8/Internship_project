@@ -47,10 +47,5 @@ CREATE TABLE 'Main' (
     FOREIGN KEY (From_City_ID) REFERENCES City(City_ID),
     FOREIGN KEY (To_City_ID) REFERENCES City(City_ID)
 );
-INSERT into 'Main' values
- (1,1,1,2,540,50,240,1),
- (2,2,1,2,530,100,150,1), 
- (3,3,1,2,234,100,345,1), 
- (4,4,1,2,567,345,235,1);
 
 SELECT c.City_Id AS From_City_Id,w.Ways_Id AS Way_Id,c2.City_Id AS To_City_Id FROM City c CROSS JOIN Ways w CROSS JOIN City c2;
