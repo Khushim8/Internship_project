@@ -1,13 +1,11 @@
 
 
  --------------------------------------------------------
-CREATE TABLE 'CITY' 
-(
-    'City_ID' INT NOT NULL,
-    'City' VARCHAR(200) NOT NULL
+CREATE TABLE city (
+    c_id INT NOT NULL,
+    c_name VARCHAR(200) NOT NULL
 );
-
-INSERT INTO 'CITY' ('ID','City') VALUES 
+INSERT INTO city (c_id,c_name) VALUES 
 ('1','Mumbai'),
 ('2','Pune'),
 ('3','Delhi'),
@@ -26,20 +24,19 @@ CREATE TABLE 'Ways' (
   'type' TEXT NOT NULL
 );
 -- insert some values
-INSERT INTO 'Ways' VALUES 
-(1, 'Air'),
-(2 , 'Car'),
-(3, 'Water'),
-(4 ,'Rails');
-
+INSERT INTO Ways (Ways_ID, type) VALUES 
+    (1, 'Air'),
+    (2, 'Car'),
+    (3, 'Water'),
+    (4, 'Rails');
 --------------------------------------------------------
 
-CREATE TABLE 'Main' (
+CREATE TABLE Main (
     Id INT PRIMARY KEY,
     Way_ID INT,
     From_City_ID INT,
     To_City_ID INT,
-    Distance DECIMAL(10, 2), -- You can adjust the precision and scale based on your needs
+    Distance DECIMAL(10, 2),
     Cost DECIMAL(10, 2),
     Time INT,
     Random VARCHAR(255),
@@ -47,5 +44,11 @@ CREATE TABLE 'Main' (
     FOREIGN KEY (From_City_ID) REFERENCES City(City_ID),
     FOREIGN KEY (To_City_ID) REFERENCES City(City_ID)
 );
+INSERT INTO Main (Way_ID, From_City_ID, To_City_ID, Distance, Cost, Time, Random)
+SELECT w.Ways_Id AS Way_Id, c.c_id AS From_City_Id, c2.c_id AS To_City_Id, 0.00, 0.00, 0, 'Random'
+FROM City c 
+CROSS JOIN Ways w 
+CROSS JOIN City c2;
 
-SELECT c.City_Id AS From_City_Id,w.Ways_Id AS Way_Id,c2.City_Id AS To_City_Id FROM City c CROSS JOIN Ways w CROSS JOIN City c2;
+
+
