@@ -41,8 +41,8 @@ CREATE TABLE Main (
     Time INT,
     Random VARCHAR(255),
     FOREIGN KEY (Way_ID) REFERENCES Ways(Ways_ID),
-    FOREIGN KEY (From_City_ID) REFERENCES City(City_ID),
-    FOREIGN KEY (To_City_ID) REFERENCES City(City_ID)
+    FOREIGN KEY (From_City_ID) REFERENCES City(c_id),
+    FOREIGN KEY (To_City_ID) REFERENCES City(c_id)
 );
 INSERT INTO Main (Way_ID, From_City_ID, To_City_ID, Distance, Cost, Time, Random)
 SELECT w.Ways_Id AS Way_Id, c.c_id AS From_City_Id, c2.c_id AS To_City_Id, 0.00, 0.00, 0, 'Random'
