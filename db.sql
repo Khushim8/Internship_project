@@ -51,8 +51,7 @@ CROSS JOIN Ways w
 CROSS JOIN City c2;
 
 UPDATE main SET Distance = ROUND(RAND() * 500, 2);
-
 UPDATE main SET Cost = ROUND(RAND() * 400, 2);
-
-
+UPDATE main SET Time = HOUR(Time) * 60 + MINUTE(Time);
+UPDATE main SET Time = ROUND(RAND() * 3000, 2);
 
