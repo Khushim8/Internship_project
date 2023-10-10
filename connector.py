@@ -1,6 +1,5 @@
 import mysql.connector
 
-
 conn = mysql.connector.connect(
     host='localhost',
     user='root',
@@ -44,19 +43,35 @@ def dijkstra(graph, start, end):
 
     return path[::-1], distances[path[-1]]
 
+# def get_routes(cursor):
+#     routes = {}
+    
+#     # Fetch all distinct ways from the 'ways' table
+#     cursor.execute("SELECT DISTINCT Ways_ID FROM ways")
+#     ways_data = cursor.fetchall()
+
+#     #for Ways_ID in ways:
+#     for Ways_ID in ways_data:
+#         cursor.execute(f"SELECT From_City_ID, To_City_ID, distance FROM newmain WHERE way_id = {Ways_ID}")
+#         route_data = cursor.fetchall()
+
+#     routes[Ways_ID] = [(From_City_ID, To_City_ID, distance) for From_City_ID, To_City_ID, distance in route_data]
+#     print(routes);
+#     return routes
 def get_routes(cursor):
-    cursor.execute("SELECT * FROM ways")
-    ways = cursor.fetchall()
     routes = {}
+    
+    # Fetch all distinct ways from the 'ways' table
+    cursor.execute("SELECT DISTINCT Ways_ID FROM ways")
+    ways_data = cursor.fetchall()
 
-    #for ways_id, name in ways:
-    ways_id= 1
-    name='air'
-    cursor.execute(f"SELECT From_City_ID, To_City_ID, distance FROM newmain WHERE way_id = {ways_id}")
-    route_data = cursor.fetchall()
+    for Ways_ID in ways_data:
+        cursor.execute(f"SELECT From_City_ID, To_City_ID, distance FROM newmain WHERE way_id = {Ways_ID[0]}")
+        route_data = cursor.fetchall()
 
-    routes[name] = [(From_City_ID, To_City_ID, distance) for From_City_ID, To_City_ID, distance in route_data]
-    print(routes);
+        routes[Ways_ID[0]] = [(From_City_ID, To_City_ID, distance) for From_City_ID, To_City_ID, distance in route_data]
+
+    print(routes)
     return routes
 
 def main():
