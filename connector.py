@@ -5,7 +5,7 @@ conn = mysql.connector.connect(
     host='localhost',
     user='root',
     password='8112001',
-    database='route'
+    database='db'
 )
 cursor = conn.cursor()
 table_name = 'ways'
@@ -44,50 +44,54 @@ def dijkstra(graph, start, end):
 
     return path[::-1], distances[path[-1]]
 
-def get_routes():
-    conn = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='8112001',
-    database='route'
-)
+def get_routes(cursor):
     cursor.execute("SELECT * FROM ways")
     ways = cursor.fetchall()
     routes = {}
 
-    for ways_id,name in ways:
-        cursor.execute(f"SELECT * FROM routes WHERE ways_id = {ways_id}")
-        routes[name] = cursor.fetchall()
-    conn.close()
+    #for ways_id, name in ways:
+    ways_id= 1
+    name='air'
+    cursor.execute(f"SELECT From_City_ID, To_City_ID, distance FROM newmain WHERE way_id = {ways_id}")
+    route_data = cursor.fetchall()
+
+    routes[name] = [(From_City_ID, To_City_ID, distance) for From_City_ID, To_City_ID, distance in route_data]
+    print(routes);
     return routes
 
 def main():
-    start_city = "Pune"
-    end_city = "Delhi"
+    start_city = 2  # Assuming you want to use city IDs instead of names (e.g., Pune's ID)
+    end_city = 3    # Change these IDs based on your specific city data (e.g., Delhi's ID)
 
-    routes = get_routes()
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='8112001',
+        database='db'  # Use the 'db' database
+    )
+    cursor = conn.cursor()
+
+    routes = get_routes(cursor)
     graph = {}
     for ways_id, route in routes.items():
-        for Pune, Delhi, distance in route:
-            if Pune not in graph:
-                graph[Pune] = []
-            if Delhi not in graph:
-                graph[Delhi] = []
-            graph[Pune].append((Delhi, distance))
-            graph[Delhi].append((Pune, distance))
-        if start_city in graph and end_city in graph:
-            path, distance = dijkstra(graph, start_city, end_city)
-            print(f"Optimal Path from {start_city} to {end_city}:")
-            print(path)
-            print(f"Total Distance: {distance}")
-        else:
-            print("Invalid cities provided.")
-    
+        for From_City_ID, To_City_ID, distance in route:
+            if From_City_ID not in graph:
+                graph[From_City_ID] = []
+            if To_City_ID not in graph:
+                graph[To_City_ID] = []
+            graph[From_City_ID].append((To_City_ID, distance))
+            graph[To_City_ID].append((From_City_ID, distance))
+
+    if start_city in graph and end_city in graph:
+        path, distance = dijkstra(graph, start_city, end_city)
+        print(f"Optimal Path from {start_city} to {end_city}:")
+        print(path)
+        print(f"Total Distance: {distance}")
+    else:
+        print("Invalid city IDs provided.")
+
+    cursor.close()
+    conn.close()
+
 if __name__ == "__main__":
     main()
-
-cursor.close()
-
-
-
-
